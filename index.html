@@ -65,8 +65,8 @@ button{cursor:pointer}
 .poster img{width:100%;height:100%;object-fit:cover;display:block}
 .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff;text-align:center;padding:10px;background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 55%,#1d3f94 100%)}
 .ph::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 12%,rgba(236,91,26,.55),transparent 55%)}
-.ph b{position:relative;font-size:34px;font-weight:800;letter-spacing:1px;direction:ltr}
-.ph small{position:relative;font-size:12px;opacity:.85;direction:ltr;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ph svg{position:relative;width:46%;opacity:.4}
+.ph small{position:relative;font-size:15px;font-weight:700;opacity:.95;direction:auto;line-height:1.35;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 6px rgba(0,0,0,.35)}
 .tick{position:absolute;top:8px;inset-inline-start:8px;width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .card.sel .tick{display:flex}
 .badge-x{position:absolute;inset-inline-end:0;top:14px;background:var(--bad);color:#fff;padding:2px 10px;font-size:12px;font-weight:700;border-radius:8px 0 0 8px}
@@ -275,9 +275,32 @@ function posterSrcs(g){
   if(g.p) return [/^(https?:)?\/\//.test(g.p) ? g.p : CONFIG.posterFolder+g.p];
   return ["jpg","png","jpeg","webp"].map(function(e){return CONFIG.posterFolder+g.id+"."+e});
 }
+/* بوستر بديل أصلي: لون مختلف لكل لعبة وأيقونة حسب التصنيف */
+var ICONS = {
+  ac:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  sh:'<circle cx="12" cy="12" r="6.5"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/>',
+  rc:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v6.5M12 14.5V21M3 12h6.5M14.5 12H21"/>',
+  sp:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c4 3 4 15 0 18M12 3c-4 3-4 15 0 18"/>',
+  ft:'<path d="M5 5l14 14M19 5 5 19M3 7l4-4M21 7l-4-4M3 17l4 4M21 17l-4 4"/>',
+  hr:'<path d="M6 21V11a6 6 0 0 1 12 0v10l-3-2-3 2-3-2z"/><circle cx="10" cy="11" r="1"/><circle cx="14" cy="11" r="1"/>',
+  kd:'<path d="m12 2 3 6.5 7 .8-5.2 4.8 1.5 7-6.3-3.6-6.3 3.6 1.5-7L2 9.3l7-.8z"/>',
+  rp:'<path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/><path d="M12 7v10M8 11h8"/>',
+  pz:'<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4z"/><circle cx="16.5" cy="16.5" r="3.5"/>',
+  sm:'<circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',
+  rt:'<rect x="2" y="7" width="20" height="10" rx="3"/><path d="M7 10v4M5 12h4"/><circle cx="15.5" cy="11" r="1"/><circle cx="18" cy="13" r="1"/>'
+};
+var HUES = {ac:20,sh:205,rc:355,sp:140,ft:340,hr:268,kd:45,rp:225,pz:170,sm:190,rt:285};
+function hash(s){var h=0;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0}return Math.abs(h)}
+function phHTML(g){
+  var h=hash(g.id), hue=((HUES[g.c]!=null?HUES[g.c]:215)+(h%36)-18+360)%360, ang=140+(h%80);
+  var st='background:linear-gradient('+ang+'deg,hsl('+hue+' 62% 24%),hsl('+((hue+28)%360)+' 58% 40%))';
+  return '<div class="ph" aria-hidden="true" style="'+st+'">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[g.c]||ICONS.ac)+'</svg>'+
+    '<small>'+esc(g.n)+'</small></div>';
+}
 function posterHTML(g){
   var l=posterSrcs(g);
-  return '<div class="ph" aria-hidden="true"><b>'+esc(initials(g.n))+'</b><small>'+esc(g.n)+'</small></div>'+
+  return phHTML(g)+
     '<img src="'+esc(l[0])+'" data-src="'+esc(l.join("|"))+'" data-i="0" alt="بوستر '+esc(g.n)+'" loading="lazy" onerror="pf(this)">';
 }
 
