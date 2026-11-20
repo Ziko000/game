@@ -56,6 +56,11 @@ code{background:var(--bg);padding:1px 6px;border-radius:6px;direction:ltr;displa
 
 <div class="wrap">
 
+  <div class="box" id="nogames" hidden style="margin-top:16px;border-color:var(--bad)">
+    <b style="color:var(--bad)">⚠️ اللوحة مفتوحة بشكل غلط</b>
+    <p class="h" style="margin:6px 0 0">قايمة الألعاب مش ظاهرة لأن الصفحة اتفتحت كملف على الجهاز. افتحها من رابط الموقع: <code>ziko000.github.io/game/add.html</code></p>
+  </div>
+
   <!-- ===== الربط ===== -->
   <div class="box" id="connBox" style="margin-top:16px">
     <details id="det">
@@ -155,6 +160,7 @@ var ALL=(window.GAMES||[]).concat(window.EXTRA_GAMES||[]);
 function $(i){return document.getElementById(i)}
 function slug(n){return String(n).toLowerCase().replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
 ALL.forEach(function(g,i){g.id=g.id||slug(g.n)||("game-"+i)});
+if(!window.GAMES||!window.GAMES.length)document.getElementById("nogames").hidden=false;
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
 /* ====== إعدادات GitHub ====== */
