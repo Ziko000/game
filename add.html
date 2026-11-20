@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>أداة الإضافة | شركة الربيع</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#00205c;--orange:#ec5b1a;--bg:#f4f6fb;--card:#fff;--ink:#10182b;--muted:#5d6783;--line:#e2e7f2;--ok:#17a35b;--bad:#c0392b}
+@media (prefers-color-scheme: dark){:root{--bg:#0b1226;--card:#121b36;--ink:#eef1fa;--muted:#9aa6c6;--line:#222d52}}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Cairo",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;padding:0 0 60px}
+header{background:var(--navy);color:#fff;padding:16px}
+header h1{margin:0;font-size:20px}
+header a{color:#ffb28a}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+.tabs{display:flex;gap:8px;margin:16px 0}
+.tabs button{flex:1;padding:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font:700 16px Cairo,sans-serif;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--orange);border-color:var(--orange);color:#fff}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px}
+.box h2{margin:0 0 6px;font-size:18px}
+.box p.h{margin:0 0 12px;color:var(--muted);font-size:14px}
+label{display:block;font-weight:700;margin:12px 0 4px;font-size:14px}
+input[type=text],textarea,select{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:16px Cairo,sans-serif}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px}
+.row label{display:flex;align-items:center;gap:6px;margin:0;font-weight:600}
+.row input{width:18px;height:18px;accent-color:var(--orange)}
+.btn{border:0;border-radius:10px;padding:11px 18px;font:700 16px Cairo,sans-serif;cursor:pointer;background:var(--navy);color:#fff}
+.btn.o{background:var(--orange)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+pre{background:#0b1226;color:#d7e3ff;border-radius:10px;padding:12px;overflow:auto;direction:ltr;text-align:left;white-space:pre-wrap;word-break:break-all;font-size:13px;margin:8px 0}
+.steps{margin:8px 0 0;padding-inline-start:20px;color:var(--ink)}
+.steps li{margin:4px 0}
+.msg{margin-top:8px;font-size:14px}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.pv{width:90px;aspect-ratio:3/4;object-fit:cover;border-radius:8px;background:var(--line);flex:none}
+.m{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px;margin:8px 0}
+.m .i{flex:1;min-width:0}
+.m .i small{color:var(--muted);display:block;direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m.no{border-color:var(--bad)}
+.m.yes{border-color:var(--ok)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>أداة إضافة الألعاب والبوسترات</h1><a href="index.html">← رجوع للموقع</a></div></header>
+
+<div class="wrap">
+  <div class="tabs" role="tablist">
+    <button role="tab" id="t1" aria-selected="true">➕ إضافة لعبة جديدة</button>
+    <button role="tab" id="t2" aria-selected="false">🖼️ تجهيز البوسترات</button>
+  </div>
+
+  <!-- ===== لعبة جديدة ===== -->
+  <section id="p1">
+    <div class="box">
+      <h2>بيانات اللعبة</h2>
+      <p class="h">املأ البيانات، وهتطلع لك سطر جاهز تلصقه في الموقع.</p>
+      <label for="n">اسم اللعبة (بالإنجليزي)</label>
+      <input type="text" id="n" placeholder="مثال: Elden Ring" dir="ltr" style="text-align:right">
+      <label for="c">التصنيف</label>
+      <select id="c"></select>
+      <label>طريقة اللعب</label>
+      <div class="row">
+        <label><input type="checkbox" id="mS" checked> فردي</label>
+        <label><input type="checkbox" id="mL"> زوجي (نفس الجهاز)</label>
+        <label><input type="checkbox" id="mO"> أونلاين</label>
+      </div>
+      <label>علامات</label>
+      <div class="row">
+        <label><input type="checkbox" id="fk"> للأطفال</label>
+        <label><input type="checkbox" id="fa"> قوائم عربي</label>
+        <label><input type="checkbox" id="fx"> غير متاحة حالياً</label>
+      </div>
+      <label for="i">فكرة اللعبة</label>
+      <textarea id="i" placeholder="جملة أو اتنين عن اللي بتعمله في اللعبة"></textarea>
+      <label for="s">نبذة عن اللعبة</label>
+      <textarea id="s" placeholder="مين صنعها وقصتها باختصار"></textarea>
+      <label for="id">اسم ملف البوستر (بيتكتب لوحده، غيّره لو عايز)</label>
+      <input type="text" id="id" dir="ltr" style="text-align:right" placeholder="elden-ring">
+      <label for="pf">صورة البوستر (اختياري)</label>
+      <input type="file" id="pf" accept="image/*">
+      <div id="pv1" style="margin-top:8px" hidden><img class="pv" id="pvImg" alt=""></div>
+      <div id="warn" class="msg bad" hidden></div>
+    </div>
+
+    <div class="box">
+      <h2>الخطوات</h2>
+      <p class="h">بعد ما تملأ البيانات اتبع الخطوات دي:</p>
+      <pre id="out">املأ اسم اللعبة الأول…</pre>
+      <button class="btn o" id="copy" disabled>١) انسخ السطر</button>
+      <button class="btn" id="dl" disabled>٢) نزّل البوستر</button>
+      <div id="m1" class="msg" hidden></div>
+      <ol class="steps">
+        <li>افتح ملف <b>extra-games.js</b> على GitHub واضغط على القلم (Edit).</li>
+        <li>الصق السطر تحت كلمة «ضيف هنا» واضغط Commit changes.</li>
+        <li>ارفع البوستر اللي نزّلته جوه فولدر <b>images</b> (Add file ← Upload files).</li>
+        <li>استنى دقيقة وحدّث الموقع.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== بوسترات ===== -->
+  <section id="p2" hidden>
+    <div class="box">
+      <h2>جهّز بوسترات كتير مرة واحدة</h2>
+      <p class="h">اختار صور الأغلفة اللي معاك (حتى لو أسماءها مختلفة). الأداة بتحاول تطابق كل صورة مع لعبتها، وانت بتصحّح لو غلطت، وبعدين تنزّل ملف واحد فيه كل الصور بالأسماء الصح.</p>
+      <input type="file" id="mf" accept="image/*" multiple>
+      <div id="ml"></div>
+      <div style="margin-top:12px">
+        <button class="btn o" id="zip" disabled>نزّل كل البوسترات (ZIP)</button>
+        <span id="zm" class="msg"></span>
+      </div>
+      <ol class="steps">
+        <li>فك ضغط الملف على جهازك.</li>
+        <li>على GitHub افتح فولدر <b>images</b> واضغط Add file ← Upload files، واسحب كل الصور اللي طلعت بعد فك الضغط.</li>
+        <li>اضغط Commit changes واستنى دقيقة.</li>
+      </ol>
+    </div>
+  </section>
+</div>
+
+<script src="jszip.min.js"></script>
+<script src="games.js"></script>
+<script src="extra-games.js"></script>
+<script>
+var CATS={ac:"أكشن ومغامرة",sh:"تصويب وحرب",rc:"سباقات",sp:"رياضة",ft:"قتال ومصارعة",hr:"رعب",kd:"أطفال وعائلة",rp:"تقمص أدوار",pz:"ألغاز ومنصات",sm:"محاكاة وإدارة",rt:"كلاسيك (PS1/PS2)"};
+var ALL=(window.GAMES||[]).concat(window.EXTRA_GAMES||[]);
+function $(i){return document.getElementById(i)}
+function slug(n){return String(n).toLowerCase().replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+function gid(g,i){return g.id||slug(g.n)||("game-"+i)}
+ALL.forEach(function(g,i){g.id=gid(g,i)});
+var ids={};ALL.forEach(function(g){ids[g.id]=g});
+
+/* تابات */
+function tab(n){["1","2"].forEach(function(k){$("p"+k).hidden=(k!==n);$("t"+k).setAttribute("aria-selected",k===n)})}
+$("t1").onclick=function(){tab("1")};$("t2").onclick=function(){tab("2")};
+
+/* تحويل أي صورة إلى JPG مقاس 600x800 (قص من النص) */
+function toJpg(file){
+  return new Promise(function(res,rej){
+    var url=URL.createObjectURL(file), im=new Image();
+    im.onload=function(){
+      var W=600,H=800,c=document.createElement("canvas");c.width=W;c.height=H;
+      var x=c.getContext("2d");x.fillStyle="#00205c";x.fillRect(0,0,W,H);
+      var r=Math.max(W/im.width,H/im.height),w=im.width*r,h=im.height*r;
+      x.drawImage(im,(W-w)/2,(H-h)/2,w,h);
+      c.toBlob(function(b){URL.revokeObjectURL(url);b?res(b):rej()},"image/jpeg",.85);
+    };
+    im.onerror=function(){URL.revokeObjectURL(url);rej()};
+    im.src=url;
+  });
+}
+function save(blob,name){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000)}
+
+/* ===== لعبة جديدة ===== */
+$("c").innerHTML=Object.keys(CATS).map(function(k){return '<option value="'+k+'">'+CATS[k]+'</option>'}).join("");
+var idEdited=false;
+$("id").addEventListener("input",function(){idEdited=true;build()});
+$("n").addEventListener("input",function(){if(!idEdited)$("id").value=slug($("n").value);build()});
+["c","mS","mL","mO","fk","fa","fx","i","s"].forEach(function(i){$(i).addEventListener("input",build);$(i).addEventListener("change",build)});
+$("pf").addEventListener("change",function(){
+  var f=this.files[0];if(!f){$("pv1").hidden=true;build();return}
+  $("pvImg").src=URL.createObjectURL(f);$("pv1").hidden=false;build();
+});
+function lineObj(){
+  var m=($("mS").checked?"S":"")+($("mL").checked?"L":"")+($("mO").checked?"O":"");
+  var o={id:$("id").value.trim()||slug($("n").value),n:$("n").value.trim(),c:$("c").value,m:m||"S",i:$("i").value.trim(),s:$("s").value.trim()};
+  if($("fk").checked)o.k=true;if($("fa").checked)o.a=true;if($("fx").checked)o.x=true;
+  return o;
+}
+function build(){
+  var n=$("n").value.trim(),o=lineObj(),w=$("warn");
+  if(!n){$("out").textContent="املأ اسم اللعبة الأول…";$("copy").disabled=true;$("dl").disabled=true;w.hidden=true;return}
+  $("out").textContent=JSON.stringify(o)+",";
+  $("copy").disabled=false;$("dl").disabled=!$("pf").files[0];
+  var dup=ids[o.id];
+  if(dup){w.hidden=false;w.textContent="تنبيه: فيه لعبة بنفس اسم الملف بالفعل ("+dup.n+"). غيّر اسم الملف عشان ما تتكررش."}
+  else if(!o.i||!o.s){w.hidden=false;w.textContent="ما تنساش تكتب فكرة اللعبة والنبذة."}
+  else w.hidden=true;
+}
+$("copy").onclick=function(){
+  var t=$("out").textContent,m=$("m1");m.hidden=false;
+  function ok(){m.className="msg ok";m.textContent="اتنسخ ✓ الصقه في extra-games.js"}
+  function bad(){m.className="msg bad";m.textContent="مقدرتش أنسخ، حدّد السطر وانسخه بإيدك."}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,bad);
+  else{var r=document.createRange();r.selectNode($("out"));getSelection().removeAllRanges();getSelection().addRange(r);try{document.execCommand("copy")?ok():bad()}catch(e){bad()}}
+};
+$("dl").onclick=function(){
+  var f=$("pf").files[0];if(!f)return;
+  toJpg(f).then(function(b){save(b,(lineObj().id||"poster")+".jpg")},function(){alert("الصورة دي مش مدعومة")});
+};
+
+/* ===== بوسترات كتير ===== */
+function norm(s){return String(s).toLowerCase().replace(/\.[a-z0-9]+$/,"").replace(/[^a-z0-9؀-ۿ]+/g," ").replace(/\b(ps4|ps5|cover|poster|box|art|boxart|playstation|4)\b/g," ").replace(/\s+/g," ").trim()}
+function match(fn){
+  var f=norm(fn);if(!f)return null;
+  var best=null,sc=0,ft=f.split(" ");
+  ALL.forEach(function(g){
+    var n=norm(g.n),s=0;
+    if(n===f)s=100;
+    else if(n.indexOf(f)>-1||f.indexOf(n)>-1)s=60+Math.min(n.length,f.length);
+    else{var nt=n.split(" "),c=0;ft.forEach(function(t){if(t.length>1&&nt.indexOf(t)>-1)c++});s=(c/Math.max(nt.length,ft.length))*50}
+    if(s>sc){sc=s;best=g}
+  });
+  return sc>=35?best:null;
+}
+var items=[];
+var opts='<option value="">— اختار اللعبة —</option>'+ALL.slice().sort(function(a,b){return a.n.localeCompare(b.n)}).map(function(g){return '<option value="'+g.id+'">'+g.n.replace(/</g,"&lt;")+'</option>'}).join("");
+$("mf").addEventListener("change",function(){
+  items=[...this.files].map(function(f){var g=match(f.name);return {f:f,id:g?g.id:"",url:URL.createObjectURL(f)}});
+  renderM();
+});
+function renderM(){
+  $("ml").innerHTML=items.map(function(it,k){
+    return '<div class="m '+(it.id?"yes":"no")+'"><img class="pv" src="'+it.url+'" alt=""><div class="i"><small>'+it.f.name.replace(/</g,"&lt;")+'</small>'+
+      '<select data-k="'+k+'">'+opts+'</select></div></div>';
+  }).join("");
+  [...$("ml").querySelectorAll("select")].forEach(function(s,k){s.value=items[k].id;s.onchange=function(){items[k].id=s.value;s.closest(".m").className="m "+(s.value?"yes":"no");upd()}});
+  upd();
+}
+function upd(){
+  var ok=items.filter(function(i){return i.id}).length;
+  $("zip").disabled=!ok;
+  $("zm").className="msg";$("zm").textContent=items.length?(ok+" من "+items.length+" صورة جاهزة"):"";
+}
+$("zip").onclick=function(){
+  var list=items.filter(function(i){return i.id}),seen={};
+  $("zm").textContent="بجهّز الصور…";$("zip").disabled=true;
+  if(typeof JSZip==="undefined"){$("zm").className="msg bad";$("zm").textContent="مقدرتش أحمّل أداة الضغط. اتأكد من النت وحاول تاني.";$("zip").disabled=false;return}
+  var z=new JSZip();
+  Promise.all(list.map(function(it){return toJpg(it.f).then(function(b){if(!seen[it.id]){seen[it.id]=1;z.file(it.id+".jpg",b)}},function(){})})).then(function(){
+    return z.generateAsync({type:"blob"});
+  }).then(function(b){save(b,"posters.zip");$("zm").className="msg ok";$("zm").textContent="تم ✓ ("+Object.keys(seen).length+" بوستر)";$("zip").disabled=false});
+};
+</script>
+</body>
+</html>

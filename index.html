@@ -215,6 +215,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin:34px 0 10px}
 <div class="toast" id="toast" role="status"></div>
 
 <script src="games.js"></script>
+<script src="extra-games.js"></script>
 <script>
 /* ============ إعدادات ============ */
 var CONFIG = {
@@ -232,8 +233,18 @@ var CATS = {ac:"أكشن ومغامرة", sh:"تصويب وحرب", rc:"سباق
   kd:"أطفال وعائلة", rp:"تقمص أدوار", pz:"ألغاز ومنصات", sm:"محاكاة وإدارة", rt:"كلاسيك (PS1/PS2)"};
 var MODES = [{k:"S",t:"فردي"},{k:"L",t:"زوجي"},{k:"O",t:"أونلاين"}];
 
-var G = window.GAMES || [];
+function slugify(n){return String(n).toLowerCase().replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+var G = (window.GAMES || []).concat(window.EXTRA_GAMES || []).map(function(g,i){
+  g.id = g.id || slugify(g.n) || ("game-"+i);
+  g.m = g.m || "S"; g.c = g.c || "ac"; g.i = g.i || ""; g.s = g.s || "";
+  return g;
+});
 var byId = {}; G.forEach(function(g){ byId[g.id]=g; });
+/* لو الصورة مش موجودة بنجرب امتداد تاني، وبعدين نسيبها للكارت البديل */
+function pf(img){
+  var l=(img.dataset.src||"").split("|"), i=+img.dataset.i+1;
+  if(i<l.length){img.dataset.i=i;img.src=l[i]}else{img.remove()}
+}
 var sel = new Set();
 var st = {q:"", mode:"", cat:"", kids:false};
 
@@ -260,9 +271,14 @@ function modeTags(g){
 function initials(n){var w=n.replace(/[^A-Za-z0-9 ]/g," ").trim().split(/\s+/).filter(Boolean);
   if(!w.length)return n.trim().slice(0,2);
   return (w.length>1?w[0][0]+w[1][0]:w[0].slice(0,2)).toUpperCase()}
+function posterSrcs(g){
+  if(g.p) return [/^(https?:)?\/\//.test(g.p) ? g.p : CONFIG.posterFolder+g.p];
+  return ["jpg","png","jpeg","webp"].map(function(e){return CONFIG.posterFolder+g.id+"."+e});
+}
 function posterHTML(g){
+  var l=posterSrcs(g);
   return '<div class="ph" aria-hidden="true"><b>'+esc(initials(g.n))+'</b><small>'+esc(g.n)+'</small></div>'+
-    '<img src="'+CONFIG.posterFolder+g.id+'.'+CONFIG.posterExt+'" alt="بوستر '+esc(g.n)+'" loading="lazy" onerror="this.remove()">';
+    '<img src="'+esc(l[0])+'" data-src="'+esc(l.join("|"))+'" data-i="0" alt="بوستر '+esc(g.n)+'" loading="lazy" onerror="pf(this)">';
 }
 
 function visible(){
